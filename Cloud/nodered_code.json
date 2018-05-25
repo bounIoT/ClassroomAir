@@ -1,0 +1,416 @@
+[
+    {
+        "id": "deb0d57.1c46528",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "eedebb40.014578",
+        "type": "mqtt in",
+        "z": "deb0d57.1c46528",
+        "name": "Event Subscriber",
+        "topic": "v1/classroomair/2260669/evt",
+        "qos": "0",
+        "broker": "299b813b.a7d85e",
+        "x": 100,
+        "y": 160,
+        "wires": [
+            [
+                "a1f1a81c.740838",
+                "a7d988b3.536648"
+            ]
+        ]
+    },
+    {
+        "id": "e1ccd676.ad9718",
+        "type": "debug",
+        "z": "deb0d57.1c46528",
+        "name": "Event",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 550,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "752559f3.3d77a8",
+        "type": "cloudant out",
+        "z": "deb0d57.1c46528",
+        "name": "Write Database",
+        "cloudant": "",
+        "database": "sensor_data",
+        "service": "Classroom Air Quality System-cloudantNoSQLDB",
+        "payonly": true,
+        "operation": "insert",
+        "x": 580,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "8636ad5c.16b48",
+        "type": "http in",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "url": "/api/data",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 460,
+        "wires": [
+            [
+                "523b0190.f9ae3",
+                "9ec0f356.b1f81",
+                "a723531a.8962a"
+            ]
+        ]
+    },
+    {
+        "id": "523b0190.f9ae3",
+        "type": "debug",
+        "z": "deb0d57.1c46528",
+        "name": "Request Query",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "x": 340,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "469fb939.685168",
+        "type": "mqtt out",
+        "z": "deb0d57.1c46528",
+        "name": "Quality Publisher",
+        "topic": "v1/classroomair/2260669/fdb",
+        "qos": "0",
+        "retain": "false",
+        "broker": "299b813b.a7d85e",
+        "x": 590,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1c15261e.da8a7a",
+        "type": "http response",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 920,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a1f1a81c.740838",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Add Timestamp",
+        "func": "var json = JSON.parse(msg.payload);\njson.timestamp = (new Date().getTime() / 1000)|0;\nmsg.payload = JSON.stringify(json, null, 2);\n//msg.payload = json;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 320,
+        "y": 120,
+        "wires": [
+            [
+                "e1ccd676.ad9718",
+                "752559f3.3d77a8"
+            ]
+        ]
+    },
+    {
+        "id": "9ec0f356.b1f81",
+        "type": "debug",
+        "z": "deb0d57.1c46528",
+        "name": "Request Params",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.params",
+        "x": 350,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "a7d988b3.536648",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Real Time Analysis",
+        "func": "var lastData = JSON.parse(msg.payload);\n\nif (lastData.temp > 30 || lastData.hum > 90 || lastData.quality > 420) {\n    msg.payload = 2;\n} else if (lastData.temp > 26 || lastData.hum > 70 || lastData.quality > 390) {\n    msg.payload = 1;\n} else {\n    msg.payload = 0;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "679cf1d1.50c42",
+                "469fb939.685168"
+            ]
+        ]
+    },
+    {
+        "id": "679cf1d1.50c42",
+        "type": "debug",
+        "z": "deb0d57.1c46528",
+        "name": "Analysis Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 580,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "410d88d5.226568",
+        "type": "http in",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "url": "/api/data/latest",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 540,
+        "wires": [
+            [
+                "62f19a7a.877134"
+            ]
+        ]
+    },
+    {
+        "id": "62f19a7a.877134",
+        "type": "cloudant in",
+        "z": "deb0d57.1c46528",
+        "name": "Read Database",
+        "cloudant": "",
+        "database": "sensor_data",
+        "service": "Classroom Air Quality System-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 320,
+        "y": 540,
+        "wires": [
+            [
+                "ba6f5795.6463c8"
+            ]
+        ]
+    },
+    {
+        "id": "ba6f5795.6463c8",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Get Last Data",
+        "func": "msg.payload.sort(function(a,b){\n    if (a.timestamp < b.timestamp) {\n        return -1;\n    } else if (a.timestamp > b.timestamp) {\n        return 1;\n    } else {\n        return 0;\n    }\n});\nmsg.payload = msg.payload[msg.payload.length - 1];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 520,
+        "y": 540,
+        "wires": [
+            [
+                "751d1fde.182a1"
+            ]
+        ]
+    },
+    {
+        "id": "751d1fde.182a1",
+        "type": "http response",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 700,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a723531a.8962a",
+        "type": "cloudant in",
+        "z": "deb0d57.1c46528",
+        "name": "Read Database",
+        "cloudant": "",
+        "database": "sensor_data",
+        "service": "Classroom Air Quality System-cloudantNoSQLDB",
+        "search": "_all_",
+        "design": "",
+        "index": "",
+        "x": 320,
+        "y": 460,
+        "wires": [
+            [
+                "b939c246.bc0eb"
+            ]
+        ]
+    },
+    {
+        "id": "b939c246.bc0eb",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Sort Data",
+        "func": "msg.payload.sort(function(a,b){\n    if (a.timestamp < b.timestamp) {\n        return -1;\n    } else if (a.timestamp > b.timestamp) {\n        return 1;\n    } else {\n        return 0;\n    }\n});\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 500,
+        "y": 460,
+        "wires": [
+            [
+                "9c8a23dc.a1dd5"
+            ]
+        ]
+    },
+    {
+        "id": "9c8a23dc.a1dd5",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Evaluate Query Params",
+        "func": "var params = msg.req.query;\n\nif (\"hour\" in params) {\n    var hour = params[\"hour\"] > 120 ? 120 : params[\"hour\"];\n    var date = (new Date().getTime() / 1000)|0;\n    msg.payload = msg.payload.filter(function(item){\n        return item.timestamp > date - hour*3600;\n    });\n} else if (\"start_date\" in params && \"end_date\" in params) {\n    var startDate = (new Date(params[\"start_date\"]).getTime() / 1000 - 10800)|0;\n    var endDate = (new Date(params[\"end_date\"]).getTime() / 1000 - 10800)|0;\n    msg.payload = msg.payload.filter(function(item){\n        return item.timestamp > startDate && item.timestamp < endDate;\n    });\n}\n\nif (\"resolution\" in params) {\n    var resolution = parseInt(params[\"resolution\"]);\n    var averaged = [];\n    var i;\n    for (i = 0; i < msg.payload.length - resolution; i += resolution) {\n        var j, temp = 0, hum = 0; quality = 0;\n        for (j = 0; j < resolution; j++) {\n            temp += msg.payload[i+j].temp;\n            hum += msg.payload[i+j].hum;\n            quality += msg.payload[i+j].quality;\n        }\n        averaged[i/resolution] = {\n            \"temp\":temp / resolution,\n            \"hum\":hum / resolution,\n            \"quality\":quality / resolution,\n            \"timestamp\":msg.payload[i + (resolution/2)|0].timestamp\n        };\n    }\n    msg.payload = averaged;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 710,
+        "y": 460,
+        "wires": [
+            [
+                "1c15261e.da8a7a"
+            ]
+        ]
+    },
+    {
+        "id": "391f5860.2af558",
+        "type": "http in",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "url": "/api/prediction",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 620,
+        "wires": [
+            [
+                "a998e283.ef5fd"
+            ]
+        ]
+    },
+    {
+        "id": "a998e283.ef5fd",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Set Headers for Authorization",
+        "func": "msg.headers = {};\nmsg.headers['Authorization'] = 'Basic M2E5YTllOTEtMjFhMS00ZTk5LWI4MzctOTAxZDhiMmQ0YTg0OmQ0NTc4ZmE0LTYwZmMtNDQ5Mi04OTdkLTdjY2NhYmUzYzE1Nw==';\nmsg.headers['Content-Type'] = 'application/json;charset=UTF-8';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 620,
+        "wires": [
+            [
+                "6a5de2cd.4b08ac"
+            ]
+        ]
+    },
+    {
+        "id": "6a5de2cd.4b08ac",
+        "type": "http request",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "url": "https://ibm-watson-ml.eu-gb.bluemix.net/v3/identity/token",
+        "tls": "",
+        "x": 610,
+        "y": 620,
+        "wires": [
+            [
+                "49e1adae.cc2844"
+            ]
+        ]
+    },
+    {
+        "id": "49e1adae.cc2844",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Set Body and Headers",
+        "func": "msg.headers = {};\nmsg.headers['Accept'] = 'application/json';\nmsg.headers[\"Authorization\"] = 'Bearer ' + msg.payload.token;\nmsg.headers[\"Content-type\"] = 'application/json;charset=UTF-8';\n\nvar params = msg.req.query;\n\nvar values = [];\n\nvar day = (params[\"day\"] - 1) * 86400;\nvar start = params[\"start_hour\"];\nvar end = params[\"end_hour\"];\nvar i;\nfor (i = start; i < end; i++) {\n    values.push([0,0,day + i * 3600]);\n    values.push([0,0,day + i * 3600 + 900]);\n    values.push([0,0,day + i * 3600 + 1800]);\n    values.push([0,0,day + i * 3600 + 2700]);\n}\n\nmsg.payload = {\"fields\": [\"hum\", \"temp\", \"timestamp\"], \"values\": values};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 820,
+        "y": 620,
+        "wires": [
+            [
+                "41fedefd.d3a8e"
+            ]
+        ]
+    },
+    {
+        "id": "41fedefd.d3a8e",
+        "type": "http request",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "https://ibm-watson-ml.mybluemix.net/v3/wml_instances/db04cf4d-24ac-44ed-a003-9476b3dc0a0c/published_models/9936e5c9-1f96-46cf-89f4-75f350b3d211/deployments/87db9003-c1dc-456d-8ec5-f1bd74a24c26/online",
+        "tls": "",
+        "x": 610,
+        "y": 740,
+        "wires": [
+            [
+                "f402551b.b564a"
+            ]
+        ]
+    },
+    {
+        "id": "7b9961b5.dadc1",
+        "type": "http response",
+        "z": "deb0d57.1c46528",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 980,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "f402551b.b564a",
+        "type": "function",
+        "z": "deb0d57.1c46528",
+        "name": "Create Payload",
+        "func": "var values = msg.payload.values;\nvar data = [];\nvar i;\nfor (i = 0; i < values.length; i++) {\n    data.push({\n        \"quality\":values[i][4],\n        \"timestamp\":values[i][2]\n    });\n}\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 740,
+        "wires": [
+            [
+                "7b9961b5.dadc1"
+            ]
+        ]
+    },
+    {
+        "id": "299b813b.a7d85e",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "iot.eclipse.org",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    }
+]
