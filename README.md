@@ -57,7 +57,7 @@ https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?start_date=20
 For hour:
 Put number of hours. Format is just a cardinal number.
 
-Example for hour with resolution
+Example for hour with resolution:
 
 https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?hour=90
 
