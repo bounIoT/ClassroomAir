@@ -42,18 +42,18 @@ By using machine learning, besides monitoring, our system in the cloud can predi
 Draw flow of data in your **implementation**. At each node, specify the name of the code that processes the input data and produces the output. Note that the code name, input data name, output name must be consistent with the names at the Code part.
 
 ## API Documentation
-Database includes three options to be requested data. User is not allowed to insert data into database.
+Database includes three options to be requested data. User is not allowed to insert or delete data in database.
 
 ### api/data
 Api includes two options as exact dates and last hours. In addition, resolution parameter exists for both selection. It takes a cardinal number and divides record list into parts with resolution size. System takes average of each part and sends new list.
 
-#### start_date & end_date
+For start_date & end_date:
 Put exact dates of start and end time. Format is year-month-dayThour:minute.
 
 Example for start_date and end_date with resolution
 https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?start_date=2018-05-14T13:00&end_date=2018-05-14T14:00&resolution=10
 
-#### hour
+For hour:
 Put number of hours. Format is just a cardinal number.
 
 Example for hour with resolution
