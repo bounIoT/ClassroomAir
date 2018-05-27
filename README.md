@@ -24,7 +24,7 @@ By using machine learning, besides monitoring, our system in the cloud can predi
 * **Node:** ESP8266 NodeMCU Code written on Arduino IDE
 * **UI:** Code for user interface
 
-## Hardware setup
+## Hardware Setup
 
 ### Components
 * ESP8266 NodeMCU CP2102 V2
@@ -38,7 +38,7 @@ By using machine learning, besides monitoring, our system in the cloud can predi
 
 ![Breadboard Diagram](/Figures/hardware/breadboard-diagram.png)
 
-## Flow of data
+## Flow of Data
 Draw flow of data in your **implementation**. At each node, specify the name of the code that processes the input data and produces the output. Note that the code name, input data name, output name must be consistent with the names at the Code part.
 
 ## API Documentation
