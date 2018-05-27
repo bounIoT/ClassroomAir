@@ -42,75 +42,200 @@ By using machine learning, besides monitoring, our system in the cloud can predi
 Draw flow of data in your **implementation**. At each node, specify the name of the code that processes the input data and produces the output. Note that the code name, input data name, output name must be consistent with the names at the Code part.
 
 ## API Documentation
-Database includes three options to be requested data. User is not allowed to insert or delete data in database.
 
-### api/data
-Api includes two options as exact dates and last hours. Get methods used in communication. In addition, resolution parameter exists for both selection. It takes a cardinal number and divides record list into parts with resolution size. System takes average of each part and sends new list.
+### Get Data Within Date Interval
 
-For start_date & end_date:
-Put exact dates of start and end time. Format is year-month-dayThour:minute.
+  Returns air quality data within given date interval.
 
-Example for start_date and end_date with resolution:
+* **URL**
 
-https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?start_date=2018-05-14T13:00&end_date=2018-05-14T14:00&resolution=10
+    api/data
 
-For hour:
-Put number of hours. Format is just a cardinal number.
+* **Method:**
 
-Example for hour with resolution:
+  `GET`
 
-https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?hour=90
+*  **URL Params**
 
-You will get a record list as response. Records are in Json format and format is the following:
+   **Required:**
+ 
+   `start_date = yyyy-mm-ddThh:mm` Beginning of the interval
+   
+   `end_date = yyyy-mm-ddThh:mm` End of the interval
 
-_id	"f47b3efd8112e46b0764ae7d947ff0d4"
+   **Optional:**
 
-_rev	"1-d77399730085967e22a248598f20e792"
+   `resolution = integer` Average every resolution amount of records into one record
 
-temp	25
+* **Success Response:**
 
-hum	70.699997
+  * **Code:** 200 <br/>
+    **Content:**
+    
+    ```
+    [  
+        {  
+           "temp":26.120000300000005,
+           "hum":57.5700006,
+           "quality":425.2,
+           "timestamp":1526294065
+        },
+        {  
+           "temp":25.96,
+           "hum":58.5099998,
+           "quality":424.1,
+           "timestamp":1526294165
+        },
+        {  
+           "temp":26.0000002,
+           "hum":57.79000020000001,
+           "quality":423.7,
+           "timestamp":1526294265
+        }
+    ]
+    ``` 
 
-quality	240
+* **Sample Call:**
 
-timestamp	1527353136
+  `curl -XGET 'https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data?start_date=2018-05-14T13:00&end_date=2018-05-14T14:00&resolution=10'`
 
-### api/data/latest
-This does not take parameter, call only.
+### Get Data Of The Last Hours
 
-Example for latest datum:
+  Returns air quality data of last specified hours.
 
-https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/latest
+* **URL**
 
-You will get only last record in Json format.
+    api/data
 
-_id	"b3d2731c4562041aa3be27e3fbcff3af"
+* **Method:**
 
-_rev	"1-6b92b9f45bf4167c3af14d76de7c5705"
+  `GET`
 
-temp	25.299999
+*  **URL Params**
 
-hum	65.599998
+   **Required:**
+ 
+   `hour = double` Number of hours before current time
 
-quality	399
+   **Optional:**
 
-timestamp	1527354126
+   `resolution = integer` Average every resolution amount of records into one record
 
-### api/prediction
-Put number of the day in the week first. Monday is 1 and Sunday is 7 others are between 1 and 7. Put start_hour and end_hour as natural numbers.
+* **Success Response:**
 
-Example for prediction:
+  * **Code:** 200 <br/>
+    **Content:**
 
-https://classroom-air-quality-system.eu-gb.mybluemix.net/api/prediction?day=2&start_hour=2&end_hour=4
+    ```
+    [  
+       {  
+          "_id":"f47b3efd8112e46b0764ae7d947ff0d4",
+          "_rev":"1-d77399730085967e22a248598f20e792",
+          "temp":25,
+          "hum":70.699997,
+          "quality":240,
+          "timestamp":1527353136
+       },
+       {  
+          "_id":"7e91b018cd0a3a25655e81753fc65360",
+          "_rev":"1-c85e4c81bb93e90dddca6dd857aeafd9",
+          "temp":25,
+          "hum":70,
+          "quality":345,
+          "timestamp":1527353146
+       }
+    ]
+    ``` 
 
-You will get a record list as response. Records are in Json format and format is the following:
+* **Sample Call:**
 
-quality	430.6205306445669
+  `curl -XGET 'https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data?hour=1&resolution=5'`
 
-timestamp	-165600
+### Get Latest Data
 
-Note: 
-For further development, api folder should be improved and divided into separate folders to match with each classroom and additional service rooms. As we had only one device, we did not put separate classrooms into api, machine learning and database.
+  Returns the latest air quality data.
+
+* **URL**
+
+    api/data/latest
+
+* **Method:**
+
+  `GET`
+
+* **Success Response:**
+
+  * **Code:** 200 <br/>
+    **Content:**
+
+    ```
+    [  
+       {  
+          "_id":"b3d2731c4562041aa3be27e3fbcff3af",
+          "_rev":"1-6b92b9f45bf4167c3af14d76de7c5705",
+          "temp":25.299999,
+          "hum":65.599998,
+          "quality":399,
+          "timestamp":1527354126
+       }
+    ]
+    ``` 
+
+* **Sample Call:**
+
+  `curl -XGET 'https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/latest'`
+
+### Get Weekly Prediction 
+
+  Returns predicted air quality data for the given day of week within the given time interval. It returns four predictions for each hour in the interval.
+
+* **URL**
+
+    api/prediction
+
+* **Method:**
+
+  `GET`
+
+*  **URL Params**
+
+   **Required:**
+ 
+   `day = integer` Day of the week (Monday: 1, Sunday: 7)
+   
+   `start_hour = integer` Beginning of the interval [0-24]
+   
+   `end_hour = integer` End of the interval [0-24]
+
+* **Success Response:**
+
+  * **Code:** 200 <br/>
+    **Content:**
+    
+    ```
+    [  
+       {  
+          "quality":429.2912570045413,
+          "timestamp":122400
+       },
+       {  
+          "quality":429.28710302441624,
+          "timestamp":123300
+       },
+       {  
+          "quality":429.2829490442912,
+          "timestamp":124200
+       },
+       {  
+          "quality":429.27879506416605,
+          "timestamp":125100
+       }
+    ]
+    ``` 
+
+* **Sample Call:**
+
+  `curl -XGET 'https://classroom-air-quality-system.eu-gb.mybluemix.net/api/prediction?day=2&start_hour=10&end_hour=11'`
 
 ## Development Environment
 
@@ -175,7 +300,7 @@ https://github.com/tzapu/WiFiManager
 
 With WiFiManager, we can set up WiFi connection of ESP8266 dynamically instead of hard coding that information into the code.
 
-### Chart.JS
+### Chart.js
 
 https://www.chartjs.org/
 
