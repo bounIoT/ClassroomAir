@@ -1,22 +1,24 @@
-
-# Description of the project
+# Smart Classroom Air Quality System
 
 Describe your project here ...
 
-# Team Members
+## Team Members
 
-Introduce yourself shortly... 
+* Mert Aközcan
+* Emre Bilgili
+* Muhammed Emin Güre
 
-# Repository Structure 
-### Please put the codes under the following folders. 
-* Node: Code for embedded processing and connectivity
-* Cloud: Code for cloud
-* UI: Code for user interface(s)
-* Figures
-   * Screenshot(s) of UI 
-   * Hardware Images used in project
-   * Any necessary figure that makes your project clear
-* Others: Please specify
+## Repository Structure
+
+* **Cloud:** Node-RED flow in JSON format (can be imported to any Node-RED flow)
+* **Figures**
+   * **cloud:** Screenshots from Node-RED flow and IBM Bluemix platform 
+   * **configuration_ui:** Screenshots of WiFi configuration UI which could be seen when setting up the device for the first time
+   * **hardware:** Pictures of the device and connection diagram
+   * **web_ui:** Screenshots from web UI which includes charts and graphs
+* **ML:** Code for generating test data 
+* **Node:** ESP8266 NodeMCU Code written on Arduino IDE
+* **UI:** Code for user interface
 
 ### If you have used an open source code, please give the link only with special thanks to the code owner.
 
