@@ -1,6 +1,8 @@
 # Smart Classroom Air Quality System
 
-Describe your project here ...
+Our IoT solution allows users to be in control of air quality in their environments. Users can monitor different parameters about the indoor air quality in real time, or they can view past and (predicted) future values as well by using our web interface. These parameters consist of temperature, humidity, and overall air quality score.
+
+By using machine learning, besides monitoring, our system in the cloud can predict when air quality will drop below optimal levels so that it can send feedback to IoT device by combining real time data and prediction.
 
 ## Team Members
 
@@ -60,3 +62,23 @@ To setup Arduino IDE in order to compile and upload the [code](https://github.co
     * WiFiManager by tzapu v0.12.0
 
 Fake data generator [FakeData.py](https://github.com/bounIoT/ClassroomAir/blob/master/ML/FakeData.py) could be run using Python 3.6.4
+
+## References
+
+### PubSubClient
+
+https://github.com/knolleary/pubsubclient
+
+We used PubSubClient for MQTT connection on ESP8266 NodeMCU device.
+
+### WiFiManager
+
+https://github.com/tzapu/WiFiManager
+
+With WiFiManager, we can set up WiFi connection of ESP8266 dynamically instead of hard coding that information into the code.
+
+### ChartJS
+
+https://www.chartjs.org/
+
+We used Chart.js in our web interface to create beautiful charts and graphics to show air quality data.
