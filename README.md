@@ -50,13 +50,15 @@ Api includes two options as exact dates and last hours. In addition, resolution 
 For start_date & end_date:
 Put exact dates of start and end time. Format is year-month-dayThour:minute.
 
-Example for start_date and end_date with resolution
+Example for start_date and end_date with resolution:
+
 https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?start_date=2018-05-14T13:00&end_date=2018-05-14T14:00&resolution=10
 
 For hour:
 Put number of hours. Format is just a cardinal number.
 
 Example for hour with resolution
+
 https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?hour=90
 
 You will get a record list as response. Records are in Json format and format is the following:
@@ -72,6 +74,7 @@ timestamp	1527353136
 This does not take parameter, call only.
 
 Example for latest datum:
+
 https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/latest
 
 You will get only last record in Json format.
@@ -87,6 +90,7 @@ timestamp	1527354126
 Put number of the day in the week first. Monday is 1 and Sunday is 7 others are between 1 and 7. Put start_hour and end_hour as natural numbers.
 
 Example for prediction:
+
 https://classroom-air-quality-system.eu-gb.mybluemix.net/api/prediction?day=2&start_hour=2&end_hour=4
 
 You will get a record list as response. Records are in Json format and format is the following:
