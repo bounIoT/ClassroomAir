@@ -1,5 +1,7 @@
 # Smart Classroom Air Quality System
 
+![Device](/Figures/hardware/top.jpg)
+
 Our IoT solution allows users to be in control of air quality in their environments. Users can monitor different parameters about the indoor air quality in real time, or they can view past and (predicted) future values as well by using our web interface. These parameters consist of temperature, humidity, and overall air quality score.
 
 By using machine learning, besides monitoring, our system in the cloud can predict when air quality will drop below optimal levels so that it can send feedback to IoT device by combining real time data and prediction.
