@@ -39,7 +39,9 @@ By using machine learning, besides monitoring, our system in the cloud can predi
 ![Breadboard Diagram](/Figures/hardware/breadboard-diagram.png)
 
 ## Flow of Data
-Draw flow of data in your **implementation**. At each node, specify the name of the code that processes the input data and produces the output. Note that the code name, input data name, output name must be consistent with the names at the Code part.
+TODO: Draw flow of data in your **implementation**. At each node, specify the name of the code that processes the input data and produces the output. Note that the code name, input data name, output name must be consistent with the names at the Code part.
+
+![Node-RED Flow](/Figures/cloud/node-red_flow.png)
 
 ## API Documentation
 
