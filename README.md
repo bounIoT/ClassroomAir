@@ -45,7 +45,7 @@ Draw flow of data in your **implementation**. At each node, specify the name of 
 Database includes three options to be requested data. User is not allowed to insert or delete data in database.
 
 ### api/data
-Api includes two options as exact dates and last hours. In addition, resolution parameter exists for both selection. It takes a cardinal number and divides record list into parts with resolution size. System takes average of each part and sends new list.
+Api includes two options as exact dates and last hours. Get methods used in communication. In addition, resolution parameter exists for both selection. It takes a cardinal number and divides record list into parts with resolution size. System takes average of each part and sends new list.
 
 For start_date & end_date:
 Put exact dates of start and end time. Format is year-month-dayThour:minute.
@@ -64,10 +64,15 @@ https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/?hour=90
 You will get a record list as response. Records are in Json format and format is the following:
 
 _id	"f47b3efd8112e46b0764ae7d947ff0d4"
+
 _rev	"1-d77399730085967e22a248598f20e792"
+
 temp	25
+
 hum	70.699997
+
 quality	240
+
 timestamp	1527353136
 
 ### api/data/latest
@@ -80,10 +85,15 @@ https://classroom-air-quality-system.eu-gb.mybluemix.net/api/data/latest
 You will get only last record in Json format.
 
 _id	"b3d2731c4562041aa3be27e3fbcff3af"
+
 _rev	"1-6b92b9f45bf4167c3af14d76de7c5705"
+
 temp	25.299999
+
 hum	65.599998
+
 quality	399
+
 timestamp	1527354126
 
 ### api/prediction
@@ -96,6 +106,7 @@ https://classroom-air-quality-system.eu-gb.mybluemix.net/api/prediction?day=2&st
 You will get a record list as response. Records are in Json format and format is the following:
 
 quality	430.6205306445669
+
 timestamp	-165600
 
 Note: 
