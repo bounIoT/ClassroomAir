@@ -39,23 +39,22 @@ By using machine learning, besides monitoring, our system in the cloud can predi
 ![Breadboard Diagram](/Figures/hardware/breadboard-diagram.png)
 
 ## Flow of Data
-TODO: Draw flow of data in your **implementation**. At each node, specify the name of the code that processes the input data and produces the output. Note that the code name, input data name, output name must be consistent with the names at the Code part.
 
 ![Node-RED Flow](/Figures/cloud/node-red_flow.png)
 
-  * **Reading values and publishing to cloud**
+  * **Reading sensor values and publishing them to cloud**
 
-  loop function in classroom_air.ino reads temperature, humidity and quality values from temperature-humidity(DHTPIN) and quality(GASPIN) sensors. Then it prepares a Json string and publishes that to evt topic in mqtt server.
+  _loop_ function in [classroom_air.ino](https://github.com/bounIoT/ClassroomAir/blob/master/Node/classroom_air.ino) reads temperature, humidity and air quality values from temperature&humidity(DHTPIN) and air quality(GASPIN) sensors. Then it prepares a JSON string and publishes that to evt topic in MQTT broker.
   
-  * **Cloud and value processing**
+  * **Cloud and data processing**
   
-  In the line of Event Subscriber -> Add Timestamp -> Write Database, real time date is added to the Json file. Then, it is written to database.
+  In the _Event Subscriber -> Add Timestamp -> Write Database_ section, timestamp is added to the JSON file. Then, it is written to database.
   
-  In the line of Event Subscriber -> Real Time Analysis -> Quality Publisher, last gathered data is processed and air quality value is loaded into msg.payload. Here, prediction value is gathered from [get]/api/prediction line and used in the function. Then, air quality value is published to fdb topic in mqtt server.
+  In the _Event Subscriber -> Real Time Analysis -> Quality Publisher_ section, last gathered data is processed and air quality value is loaded into msg.payload. Here, prediction value is gathered from _[get]/api/prediction_ section and used in the function. Then, air quality value is published to fdb topic in MQTT broker.
   
-  * **Reading air quality value from cloud and actions**
+  * **Reading air quality status from cloud and taking actions**
   
-  receivedCallback function in classroom_air.ino reads air quality value from fdb topic in mqtt server. If read value is 2 in payload, it makes a "beep beep" sound with buzzer (BUZZERPIN) and lights red bulb (REDPIN). Else if the value is 1, it lights yellow bulb (YELLOWPIN).
+  _receivedCallback_ function in [classroom_air.ino](https://github.com/bounIoT/ClassroomAir/blob/master/Node/classroom_air.ino) reads air quality status from fdb topic in MQTT broker. If status value is 2 in payload, it makes a "beep beep" sound with buzzer (BUZZERPIN) and lights up the red LED (REDPIN). Else if status value is 1, it lights up the yellow LED (YELLOWPIN).
 
 ## API Documentation
 
