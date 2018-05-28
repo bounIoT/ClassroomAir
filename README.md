@@ -55,7 +55,7 @@ TODO: Draw flow of data in your **implementation**. At each node, specify the na
   
   * **Reading air quality value from cloud**
   
-  receivedCallback function in classroom_air.ino reads air quality value from fdb topic in mqtt server. If read value is 2 in payload, it makes a "beep beep" sound with buzzer (BUZZERPIN) and lights red bulb(REDPIN). Else if it the value is 1, it lights yellow bulb(YELLOWPIN).
+  receivedCallback function in classroom_air.ino reads air quality value from fdb topic in mqtt server. If read value is 2 in payload, it makes a "beep beep" sound with buzzer (BUZZERPIN) and lights red bulb (REDPIN). Else if the value is 1, it lights yellow bulb (YELLOWPIN).
 
 ## API Documentation
 
