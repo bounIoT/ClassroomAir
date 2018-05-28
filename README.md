@@ -43,6 +43,20 @@ TODO: Draw flow of data in your **implementation**. At each node, specify the na
 
 ![Node-RED Flow](/Figures/cloud/node-red_flow.png)
 
+  * **Reading values and publishing**
+
+  loop function in classroom_air.ino reads temperature, humidity and quality values from temperature-humidity(DHTPIN) and quality(GASPIN) sensors. Then it prepares a Json string and publishes that to evt topic in mqtt server.
+  
+  * **Cloud and value processing**
+  
+  In the line of Event Subscriber -> Add Timestamp -> Write Database, real time date is added to the Json file. Then, it is written to database.
+  
+  In the line of Event Subscriber -> Real Time Analysis -> Quality Publisher, last gathered data is processed and air quality value is loaded into msg.payload. Here, prediction value is gathered from [get]/api/prediction line and used in the function. Then, air quality value is published to fdb topic in mqtt server.
+  
+  * **Reading air quality value from cloud**
+  
+  receivedCallback function in classroom_air.ino reads air quality value from fdb topic in mqtt server. If read value is 2 in payload, it makes a "beep beep" sound with buzzer (BUZZERPIN) and lights red bulb(REDPIN). Else if it the value is 1, it lights yellow bulb(YELLOWPIN).
+
 ## API Documentation
 
 ### Get Data Within Date Interval
