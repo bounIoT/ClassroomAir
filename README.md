@@ -307,3 +307,9 @@ With WiFiManager, we can set up WiFi connection of ESP8266 dynamically instead o
 https://www.chartjs.org/
 
 We used Chart.js in our web interface to create beautiful charts and graphics to show air quality data.
+
+### Adminator HTML5 Admin Template
+
+https://github.com/puikinsh/Adminator-admin-dashboard
+
+We used Adminator HTML5 template in our web interface to speed up the process with a magnificent UI. The author of this template is [Colorlib](https://colorlib.com).
